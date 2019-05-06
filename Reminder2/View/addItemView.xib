@@ -107,7 +107,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.3984375" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" white="0.33486729452054792" alpha="0.39030393835616439" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="ezR-UX-Ish" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="2/3" id="HKy-Oo-JYH"/>
                 <constraint firstItem="ezR-UX-Ish" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="jyE-Zj-koV"/>

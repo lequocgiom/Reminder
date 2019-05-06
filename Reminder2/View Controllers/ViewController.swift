@@ -12,6 +12,7 @@ import ChameleonFramework
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AddingReceive, EditingReceive {
     
+    //MARK: editing item action
     var currentIndex : Int?
     
     func dataEditingReceived(data: Item) {
@@ -35,13 +36,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.reloadData()
     }
     
-    
+    // MARK: variable for persisting data
     let realm = try! Realm()
     
     var itemList : Results<Item>!
     
+    var hideCompleted = false
     //MARK: TableView delegate and datasource
     
+    @IBOutlet weak var hideCompletedButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -57,6 +60,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Do any additional setup after loading the view.
     }
     
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return 3
+//    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemList?.count ?? 1
     }
@@ -156,6 +162,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         save(item: data)
         tableView.reloadData()
         return
+    }
+    @IBAction func hideCompletedAction(_ sender: Any) {
+        
+        if hideCompleted == false {
+            itemList = itemList.filter(NSPredicate(format: "done == %@", NSNumber(booleanLiteral: false)))
+            tableView.reloadData()
+            hideCompleted = true
+            hideCompletedButton.setTitle("Show Completed Tasks", for: .normal)
+        }
+        else {
+            hideCompletedButton.setTitle("Hide Completed Tasks", for: .normal)
+            hideCompleted = false
+            loadItems()
+        }
     }
 }
 

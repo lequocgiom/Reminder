@@ -37,6 +37,9 @@ class addItemViewController: UIViewController {
         datePicker?.addTarget(self, action: #selector(dateChanged(datePicker:)), for: .valueChanged)
         
         dateTextField.inputView = datePicker
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        dateTextField.text = dateFormatter.string(from: Date())
     }
     
     @objc func viewTapped(gestureRecognizer: UITapGestureRecognizer) {

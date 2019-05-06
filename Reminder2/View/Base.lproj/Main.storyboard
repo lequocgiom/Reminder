@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sBX-rg-6p1">
-                                        <rect key="frame" x="0.0" y="100" width="414" height="752"/>
+                                        <rect key="frame" x="0.0" y="100" width="414" height="692"/>
                                         <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.32941176470588235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="30" reuseIdentifier="tabelCell" id="Snz-xp-eUP">
@@ -39,17 +39,17 @@
                                             <outlet property="delegate" destination="BYZ-38-t0r" id="rTQ-lK-ceg"/>
                                         </connections>
                                     </tableView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="224" translatesAutoresizingMaskIntoConstraints="NO" id="hsn-US-NgX">
-                                        <rect key="frame" x="10" y="50" width="396" height="40"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="hsn-US-NgX">
+                                        <rect key="frame" x="10" y="50" width="394" height="40"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My To-do List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cA1-2h-hk3">
-                                                <rect key="frame" x="0.0" y="0.0" width="132" height="40"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="304" height="40"/>
                                                 <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="25"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oxr-RO-dLd">
-                                                <rect key="frame" x="356" y="0.0" width="40" height="40"/>
+                                                <rect key="frame" x="354" y="0.0" width="40" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="aqh-vp-5JS"/>
                                                     <constraint firstAttribute="width" constant="40" id="b1q-dd-9P7"/>
@@ -76,19 +76,35 @@
                                             <outlet property="delegate" destination="BYZ-38-t0r" id="24P-Dz-1o6"/>
                                         </connections>
                                     </searchBar>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TUl-M6-F6R">
+                                        <rect key="frame" x="0.0" y="792" width="414" height="60"/>
+                                        <color key="backgroundColor" red="0.17189285159111023" green="0.17198285460472107" blue="0.76014019691780821" alpha="0.3946382705479452" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="23"/>
+                                        <state key="normal" title="Hide Completed Tasks">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="hideCompletedAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yrv-0O-sh6"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.32941176470588235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="hsn-US-NgX" firstAttribute="leading" secondItem="USC-hd-cYE" secondAttribute="leading" constant="10" id="Agr-yH-GIy"/>
                                     <constraint firstItem="pHE-fc-GhY" firstAttribute="leading" secondItem="USC-hd-cYE" secondAttribute="leading" id="DH6-90-lb2"/>
+                                    <constraint firstAttribute="trailing" secondItem="hsn-US-NgX" secondAttribute="trailing" constant="10" id="Eme-sA-h8i"/>
                                     <constraint firstItem="hsn-US-NgX" firstAttribute="top" secondItem="pHE-fc-GhY" secondAttribute="bottom" id="HiF-q2-ICU"/>
                                     <constraint firstItem="sBX-rg-6p1" firstAttribute="leading" secondItem="USC-hd-cYE" secondAttribute="leading" id="J43-IU-lYD"/>
                                     <constraint firstItem="sBX-rg-6p1" firstAttribute="top" secondItem="hsn-US-NgX" secondAttribute="bottom" constant="10" id="M4t-l5-YMf"/>
-                                    <constraint firstAttribute="bottom" secondItem="sBX-rg-6p1" secondAttribute="bottom" id="M8C-gC-gvw"/>
+                                    <constraint firstAttribute="bottom" secondItem="sBX-rg-6p1" secondAttribute="bottom" constant="60" id="M8C-gC-gvw"/>
+                                    <constraint firstAttribute="trailing" secondItem="TUl-M6-F6R" secondAttribute="trailing" id="RZR-I9-yuT"/>
                                     <constraint firstAttribute="trailing" secondItem="pHE-fc-GhY" secondAttribute="trailing" id="gMG-El-cjN"/>
+                                    <constraint firstItem="TUl-M6-F6R" firstAttribute="leading" secondItem="USC-hd-cYE" secondAttribute="leading" id="p9X-1H-PbI"/>
                                     <constraint firstAttribute="trailing" secondItem="sBX-rg-6p1" secondAttribute="trailing" id="rh8-23-XPn"/>
                                     <constraint firstItem="pHE-fc-GhY" firstAttribute="top" secondItem="USC-hd-cYE" secondAttribute="top" id="ssQ-I1-YLM"/>
+                                    <constraint firstItem="TUl-M6-F6R" firstAttribute="top" secondItem="sBX-rg-6p1" secondAttribute="bottom" id="uEn-sn-M2n"/>
                                     <constraint firstItem="sBX-rg-6p1" firstAttribute="top" secondItem="USC-hd-cYE" secondAttribute="top" constant="100" id="uKD-fZ-GIu"/>
+                                    <constraint firstAttribute="bottom" secondItem="TUl-M6-F6R" secondAttribute="bottom" id="zee-5j-sWr"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -102,6 +118,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="hideCompletedButton" destination="TUl-M6-F6R" id="gwd-VQ-JcV"/>
                         <outlet property="tableView" destination="sBX-rg-6p1" id="Vvs-V1-kAz"/>
                     </connections>
                 </viewController>
