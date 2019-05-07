@@ -43,11 +43,17 @@
                                         <rect key="frame" x="10" y="50" width="394" height="40"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My To-do List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cA1-2h-hk3">
-                                                <rect key="frame" x="0.0" y="0.0" width="304" height="40"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="132" height="40"/>
                                                 <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="25"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l42-84-0iZ">
+                                                <rect key="frame" x="182" y="0.0" width="122" height="40"/>
+                                                <connections>
+                                                    <action selector="testDate:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Voa-Ig-vmw"/>
+                                                </connections>
+                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oxr-RO-dLd">
                                                 <rect key="frame" x="354" y="0.0" width="40" height="40"/>
                                                 <constraints>

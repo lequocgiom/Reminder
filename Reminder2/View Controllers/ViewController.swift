@@ -93,13 +93,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         addVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         self.present(addVC, animated:true, completion:nil)
     }
-//    @objc func detailView(sender: UIButton) {
-//        
-//        let detailVC = ItemDetailViewController()
-//        
-//        self.present(detailVC, animated: true, completion: nil)
-//    }
-//    
+    
+    @IBAction func testDate(_ sender: UIButton) {
+        //Todo: filter item by Date(today)
+        itemList = itemList.filter("dateCreated == %@", NSDate())
+        tableView.reloadData()
+    }
+  
     //MARK: manipulate data (Load, save)
     
     func save(item : Item) {
@@ -179,6 +179,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 }
 
+//MARK: adopt CustomCellDelegate methods
 extension ViewController: CustomCellDelegate {
     func checkChange(_ cell: CustomCell, didTap checkButton: UIButton) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
@@ -213,6 +214,7 @@ extension ViewController: CustomCellDelegate {
     
 }
 
+//MARK: Searchbar button action
 extension ViewController : UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         itemList = itemList.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "title", ascending: true)
@@ -230,6 +232,7 @@ extension ViewController : UISearchBarDelegate {
     
 }
 
+//MARK: extension for Date
 extension Date {
     static var yesterday: Date { return Date().dayBefore }
     static var tomorrow:  Date { return Date().dayAfter }
