@@ -39,6 +39,7 @@ class ItemDetailViewController: UIViewController {
         datePicker?.addTarget(self, action: #selector(dateChanged(datePicker:)), for: .valueChanged)
         
         dateTextField.inputView = datePicker
+        datePicker?.minimumDate=Date()
     }
     
     @objc func viewTapped(gestureRecognizer: UITapGestureRecognizer) {

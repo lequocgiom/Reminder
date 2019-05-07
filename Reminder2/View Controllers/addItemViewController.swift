@@ -40,6 +40,7 @@ class addItemViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy"
         dateTextField.text = dateFormatter.string(from: Date())
+        datePicker?.minimumDate=Date()
     }
     
     @objc func viewTapped(gestureRecognizer: UITapGestureRecognizer) {

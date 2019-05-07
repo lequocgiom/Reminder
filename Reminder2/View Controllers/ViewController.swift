@@ -93,13 +93,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         addVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         self.present(addVC, animated:true, completion:nil)
     }
-    @objc func detailView(sender: UIButton) {
-        
-        let detailVC = ItemDetailViewController()
-        
-        self.present(detailVC, animated: true, completion: nil)
-    }
-    
+//    @objc func detailView(sender: UIButton) {
+//        
+//        let detailVC = ItemDetailViewController()
+//        
+//        self.present(detailVC, animated: true, completion: nil)
+//    }
+//    
     //MARK: manipulate data (Load, save)
     
     func save(item : Item) {
@@ -228,4 +228,24 @@ extension ViewController : UISearchBarDelegate {
         }
     }
     
+}
+
+extension Date {
+    static var yesterday: Date { return Date().dayBefore }
+    static var tomorrow:  Date { return Date().dayAfter }
+    var dayBefore: Date {
+        return Calendar.current.date(byAdding: .day, value: -1, to: noon)!
+    }
+    var dayAfter: Date {
+        return Calendar.current.date(byAdding: .day, value: 1, to: noon)!
+    }
+    var noon: Date {
+        return Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: self)!
+    }
+    var month: Int {
+        return Calendar.current.component(.month,  from: self)
+    }
+    var isLastDayOfMonth: Bool {
+        return dayAfter.month != month
+    }
 }
