@@ -9,7 +9,7 @@
 import UIKit
 
 protocol EditingReceive {
-    func dataEditingReceived(data: Item)
+    func dataEditingReceived(data: Item, selectedItem: Item)
 }
 
 class ItemDetailViewController: UIViewController {
@@ -26,7 +26,7 @@ class ItemDetailViewController: UIViewController {
         if let item = selectedItem {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MM/dd/yyyy"
-            dateTextField.text = dateFormatter.string(from: item.dateCreated ?? Date())
+            dateTextField.text = dateFormatter.string(from: item.dateCreated! )
             titleTextField.text = item.title
             noteTextField.text = item.note
             
@@ -39,7 +39,7 @@ class ItemDetailViewController: UIViewController {
         datePicker?.addTarget(self, action: #selector(dateChanged(datePicker:)), for: .valueChanged)
         
         dateTextField.inputView = datePicker
-        datePicker?.minimumDate=Date()
+//        datePicker?.minimumDate=Date()
     }
     
     @objc func viewTapped(gestureRecognizer: UITapGestureRecognizer) {
@@ -56,15 +56,15 @@ class ItemDetailViewController: UIViewController {
     
     //MARK: save action
     @IBAction func saveButtonAction(_ sender: UIButton) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
         if let title = titleTextField.text,
             let note = noteTextField.text
             //            let date = dateTextField.text
         {
             let newItem = Item(title: title, note: note)
-            newItem.dateCreated = datePicker?.date
-            print(title)
-            print(note)
-            delegate?.dataEditingReceived(data: newItem)
+            newItem.dateCreated = dateFormatter.date(from: dateTextField.text!)
+            delegate?.dataEditingReceived(data: newItem, selectedItem: self.selectedItem!)
             print("Button tapped22")
         }
         

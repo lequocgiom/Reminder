@@ -40,7 +40,7 @@ class addItemViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy"
         dateTextField.text = dateFormatter.string(from: Date())
-        datePicker?.minimumDate=Date()
+//        datePicker?.minimumDate=Date()
     }
     
     @objc func viewTapped(gestureRecognizer: UITapGestureRecognizer) {
@@ -92,7 +92,7 @@ class addItemViewController: UIViewController {
                 //            let date = dateTextField.text
             {
                 let newItem = Item(title: title, note: note)
-                newItem.dateCreated = datePicker?.date
+                newItem.dateCreated = datePicker?.date.stripTime()
                 print(title)
                 print(note)
                 delegate?.dataAddingReceived(data: newItem)
@@ -111,3 +111,4 @@ class addItemViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
 }
+

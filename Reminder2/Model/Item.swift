@@ -20,10 +20,18 @@ class Item : Object {
         self.init()
         self.title = title
         self.note = note
-        self.dateCreated = Date()
+//        self.dateCreated = Date().stripTime()
         self.done = false
         }
         
     
 }
 
+extension Date {
+    
+    func stripTime() -> Date {
+        let components = Calendar.current.dateComponents([.year, .month, .day], from: self)
+        let date = Calendar.current.date(from: components)
+        return date!
+    }
+}

@@ -12,30 +12,10 @@ import ChameleonFramework
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AddingReceive, EditingReceive {
     
-    //MARK: editing item action
+    
+    let section = ["Overdue", "Today", "Tomorrow", "Upcoming days"]
     var currentIndex : Int?
-    
-    func dataEditingReceived(data: Item) {
-        if let index = currentIndex {
-            print(index)
-            if let todo = self.itemList?[index] {
-                do {
-                    try self.realm.write {
-                        todo.title = data.title
-                        todo.note = data.note
-                        todo.dateCreated = data.dateCreated
-                    }
-                }
-                catch {
-                    print("Error deleting category, \(error)")
-                }
-                
-            }
-        }
-        else {print("current index not found")}
-        tableView.reloadData()
-    }
-    
+    var list : [Results<Item>]?
     // MARK: variable for persisting data
     let realm = try! Realm()
     
@@ -46,42 +26,60 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var hideCompletedButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         self.tableView.register(UINib(nibName: "CustomCell", bundle: nil), forCellReuseIdentifier: "tableCell")
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
         self.tableView.separatorStyle = .none
+        
         loadItems()
         // Do any additional setup after loading the view.
     }
     
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return 3
-//    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        return self.section[section]
+        
+    }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return section.count
+    }
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return itemList?.count ?? 1
+        list = [itemList.filter("dateCreated < %@", Date.yesterday), itemList.filter("dateCreated BETWEEN {%@,%@}", Date.yesterday, Date()), itemList.filter("dateCreated BETWEEN {%@,%@}", Date(), Date.tomorrow),
+        itemList.filter("dateCreated > %@", Date.tomorrow)]
+        return list?[section].count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
+    {
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.font = UIFont(name: "Futura", size: 22)!
+        header.textLabel?.textColor = UIColor(hexString: "#74b9ff")
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath) as! CustomCell
         
-        if let item = itemList?[indexPath.row] {
-            cell.configure(title: item.title, delegate: self)
-            
-            if item.done {
-                cell.checkButton.setBackgroundImage(UIImage(imageLiteralResourceName: "checkBoxFILLED"), for: UIControl.State.normal)
-            }
-            else {
-                cell.checkButton.setBackgroundImage(UIImage(imageLiteralResourceName: "checkBoxOUTLINE"), for: UIControl.State.normal)
-                
-            }
-
+//        if let item = itemList?[indexPath.row]  {
+        let item = list?[indexPath.section][indexPath.row]
+        cell.configure(title: item!.title, delegate: self)
+        
+        if item!.done {
+            cell.checkButton.setBackgroundImage(UIImage(imageLiteralResourceName: "checkBoxFILLED"), for: UIControl.State.normal)
         }
+        else {
+            cell.checkButton.setBackgroundImage(UIImage(imageLiteralResourceName: "checkBoxOUTLINE"), for: UIControl.State.normal)
+            
+        }
+
+//        }
         return cell
     }
     
@@ -92,12 +90,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         addVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         addVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         self.present(addVC, animated:true, completion:nil)
-    }
-    
-    @IBAction func testDate(_ sender: UIButton) {
-        //Todo: filter item by Date(today)
-        itemList = itemList.filter("dateCreated == %@", NSDate())
-        tableView.reloadData()
     }
   
     //MARK: manipulate data (Load, save)
@@ -129,7 +121,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         switch editingStyle {
         case .delete:
-            if let todo = self.itemList?[indexPath.row] {
+            if let todo = self.list?[indexPath.section][indexPath.row] {
                 do {
                     try self.realm.write {
                         self.realm.delete(todo)
@@ -163,6 +155,31 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.reloadData()
         return
     }
+    
+    //MARK: adopt protocol for editing item action
+    func dataEditingReceived(data: Item, selectedItem: Item) {
+//        if let index = currentIndex {
+//            print(index)
+//            if let todo = self.itemList?[index]{
+                do {
+                    try self.realm.write {
+                        selectedItem.title = data.title
+                        selectedItem.note = data.note
+                        selectedItem.dateCreated = data.dateCreated?.stripTime()
+                    }
+                }
+                catch {
+                    print("Error deleting category, \(error)")
+                }
+                
+//            }
+//        }
+//        else {print("current index not found")}
+        tableView.reloadData()
+    }
+    
+    //Hide completed action
+    
     @IBAction func hideCompletedAction(_ sender: Any) {
         
         if hideCompleted == false {
@@ -184,18 +201,17 @@ extension ViewController: CustomCellDelegate {
     func checkChange(_ cell: CustomCell, didTap checkButton: UIButton) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         
-        
-        if let item = itemList?[indexPath.row] {
+        if let todo = self.list?[indexPath.section][indexPath.row] {
             do {
-                try realm.write {
-                    item.done = !item.done
+                try self.realm.write {
+                    todo.done = !todo.done
                 }
             }
             catch {
-                print("error changing done status, \(error)")
+                print("Error changing done status, \(error)")
             }
+            
         }
-        
         tableView.reloadData()
         
     }
@@ -206,7 +222,7 @@ extension ViewController: CustomCellDelegate {
         print(currentIndex!)
         let detailVC = ItemDetailViewController()
         detailVC.delegate = self
-        detailVC.selectedItem = itemList[indexPath.row]
+        detailVC.selectedItem = self.list?[indexPath.section][indexPath.row]
         detailVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         detailVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         self.present(detailVC, animated: true, completion: nil)
