@@ -58,33 +58,15 @@ class addItemViewController: UIViewController {
     //MARK: save action
     @IBAction func saveButtonAction(_ sender: UIButton) {
         if titleTextField.text == "" {
-            let alert = UIAlertController(title: "Missing infomation", message: "TITLE REQUIRED", preferredStyle: .alert)
-            let action = UIAlertAction(title: "Cancel", style: .default) { (action) in
-                print("Sucess")
-            }
-            alert.view.tintColor = .red
-            alert.addAction(action)
-            present(alert, animated: true, completion: nil)
+            addAlertMsg(mess: "TITLE REQUIRED")
         }
             
         else if noteTextField.text == "" {
-            let alert = UIAlertController(title: "Missing infomation", message: "NOTE REQUIRED", preferredStyle: .alert)
-            alert.view.tintColor = .red
-            let action = UIAlertAction(title: "Cancel", style: .default) { (action) in
-                print("Sucess")
-            }
-            alert.addAction(action)
-            present(alert, animated: true, completion: nil)
+            addAlertMsg(mess: "NOTE REQUIRED")
         }
         
         else if dateTextField.text == "" {
-            let alert = UIAlertController(title: "Missing infomation", message: "DATE REQUIRED", preferredStyle: .alert)
-            alert.view.tintColor = .red
-            let action = UIAlertAction(title: "Cancel", style: .default) { (action) in
-                print("Sucess")
-            }
-            alert.addAction(action)
-            present(alert, animated: true, completion: nil)
+            addAlertMsg(mess: "DATE REQUIRED")
         }
         else {
             if let title = titleTextField.text,
@@ -99,8 +81,7 @@ class addItemViewController: UIViewController {
                 print("Button tapped22")
             }
             self.dismiss(animated: true, completion: nil)
-            //        print(type(of :self.duedate))
-            //        print(self.duedate)
+        
             print("Button tapped")
         }
         
@@ -109,6 +90,16 @@ class addItemViewController: UIViewController {
     
     @IBAction func backButtonAction(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func addAlertMsg(mess: String){
+        let alert = UIAlertController(title: "Missing infomation", message: mess, preferredStyle: .alert)
+        alert.view.tintColor = .red
+        let action = UIAlertAction(title: "Cancel", style: .default) { (action) in
+            print("Sucess")
+        }
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
     }
 }
 

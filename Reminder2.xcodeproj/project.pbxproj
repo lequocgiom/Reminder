@@ -18,6 +18,7 @@
 		95004C95227C23E50006A8AE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95004C94227C23E50006A8AE /* Item.swift */; };
 		95004C99227C2ED30006A8AE /* addItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95004C98227C2ED30006A8AE /* addItemViewController.swift */; };
 		95004CA0227C52880006A8AE /* addItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95004C9F227C52880006A8AE /* addItemView.xib */; };
+		952B8D3522843EBF00B82F51 /* ItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952B8D3422843EBF00B82F51 /* ItemManager.swift */; };
 		95E4FF51227DFAA100BD775B /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E4FF4F227DFAA100BD775B /* CustomCell.swift */; };
 		95E4FF52227DFAA100BD775B /* CustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95E4FF50227DFAA100BD775B /* CustomCell.xib */; };
 /* End PBXBuildFile section */
@@ -37,6 +38,7 @@
 		95004C94227C23E50006A8AE /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		95004C98227C2ED30006A8AE /* addItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addItemViewController.swift; sourceTree = "<group>"; };
 		95004C9F227C52880006A8AE /* addItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = addItemView.xib; sourceTree = "<group>"; };
+		952B8D3422843EBF00B82F51 /* ItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemManager.swift; sourceTree = "<group>"; };
 		95E4FF4F227DFAA100BD775B /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		95E4FF50227DFAA100BD775B /* CustomCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCell.xib; sourceTree = "<group>"; };
 		F4B8A1B880BE272595C836E6 /* Pods-Reminder2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reminder2.debug.xcconfig"; path = "Target Support Files/Pods-Reminder2/Pods-Reminder2.debug.xcconfig"; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				95004C94227C23E50006A8AE /* Item.swift */,
+				952B8D3422843EBF00B82F51 /* ItemManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 			files = (
 				95004C95227C23E50006A8AE /* Item.swift in Sources */,
 				95004C99227C2ED30006A8AE /* addItemViewController.swift in Sources */,
+				952B8D3522843EBF00B82F51 /* ItemManager.swift in Sources */,
 				95004C81227BE79E0006A8AE /* ViewController.swift in Sources */,
 				95004C7F227BE79E0006A8AE /* AppDelegate.swift in Sources */,
 				95E4FF51227DFAA100BD775B /* CustomCell.swift in Sources */,

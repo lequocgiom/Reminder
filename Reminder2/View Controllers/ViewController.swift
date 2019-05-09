@@ -17,7 +17,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var currentIndex : Int?
     var list : [Results<Item>]?
     // MARK: variable for persisting data
-    let realm = try! Realm()
+    let realm = ItemManager.shared.realm
+    
+    var notificationToken: NotificationToken?
     
     var itemList : Results<Item>!
     
@@ -36,11 +38,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         self.tableView.register(UINib(nibName: "CustomCell", bundle: nil), forCellReuseIdentifier: "tableCell")
         self.tableView.separatorStyle = .none
-        
+        notificationToken = realm.observe { (notification, realm) in
+            self.tableView.reloadData()
+        }
         loadItems()
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        notificationToken?.invalidate()
+        ItemManager.shared.stopObserving(in: self)
+    }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         return self.section[section]
@@ -67,7 +77,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath) as! CustomCell
         
-//        if let item = itemList?[indexPath.row]  {
         let item = list?[indexPath.section][indexPath.row]
         cell.configure(title: item!.title, delegate: self)
         
@@ -78,11 +87,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             cell.checkButton.setBackgroundImage(UIImage(imageLiteralResourceName: "checkBoxOUTLINE"), for: UIControl.State.normal)
             
         }
-
-//        }
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presentItemDetailView(with: indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
     //MARK: add button adtion
     @IBAction func addButtonAction(_ sender: UIButton) {
         let addVC = addItemViewController()
@@ -95,16 +106,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //MARK: manipulate data (Load, save)
     
     func save(item : Item) {
-        do {
-            try realm.write {
-                realm.add(item)
-            }
-        }
-            
-        catch{
-            print("Error saving category, \(error)")
-        }
-        
+
+        ItemManager.shared.create(item)
         tableView.reloadData()
     }
     
@@ -122,15 +125,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         switch editingStyle {
         case .delete:
             if let todo = self.list?[indexPath.section][indexPath.row] {
-                do {
-                    try self.realm.write {
-                        self.realm.delete(todo)
-                    }
-                }
-                catch {
-                    print("Error deleting category, \(error)")
-                }
-                
+
+                ItemManager.shared.delete(todo)
             }
             tableView.reloadData()
             
@@ -157,24 +153,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     //MARK: adopt protocol for editing item action
-    func dataEditingReceived(data: Item, selectedItem: Item) {
-//        if let index = currentIndex {
-//            print(index)
-//            if let todo = self.itemList?[index]{
-                do {
-                    try self.realm.write {
-                        selectedItem.title = data.title
-                        selectedItem.note = data.note
-                        selectedItem.dateCreated = data.dateCreated?.stripTime()
-                    }
-                }
-                catch {
-                    print("Error deleting category, \(error)")
-                }
-                
-//            }
-//        }
-//        else {print("current index not found")}
+    func dataEditingReceived(dictionary: [String: Any?], selectedItem: Item) {
+
+        ItemManager.shared.update(selectedItem, with: dictionary)
+
         tableView.reloadData()
     }
     
@@ -220,6 +202,10 @@ extension ViewController: CustomCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         currentIndex = indexPath.row
         print(currentIndex!)
+        presentItemDetailView(with: indexPath)
+    }
+    
+    func presentItemDetailView(with indexPath: IndexPath) {
         let detailVC = ItemDetailViewController()
         detailVC.delegate = self
         detailVC.selectedItem = self.list?[indexPath.section][indexPath.row]
@@ -227,7 +213,6 @@ extension ViewController: CustomCellDelegate {
         detailVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         self.present(detailVC, animated: true, completion: nil)
     }
-    
 }
 
 //MARK: Searchbar button action

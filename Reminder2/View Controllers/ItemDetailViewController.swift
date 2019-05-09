@@ -9,7 +9,7 @@
 import UIKit
 
 protocol EditingReceive {
-    func dataEditingReceived(data: Item, selectedItem: Item)
+    func dataEditingReceived(dictionary: [String: Any?], selectedItem: Item)
 }
 
 class ItemDetailViewController: UIViewController {
@@ -60,11 +60,10 @@ class ItemDetailViewController: UIViewController {
         dateFormatter.dateFormat = "MM/dd/yyyy"
         if let title = titleTextField.text,
             let note = noteTextField.text
-            //            let date = dateTextField.text
+          
         {
-            let newItem = Item(title: title, note: note)
-            newItem.dateCreated = dateFormatter.date(from: dateTextField.text!)
-            delegate?.dataEditingReceived(data: newItem, selectedItem: self.selectedItem!)
+            let dictionary: [String: Any?] = ["title": title, "note": note, "dateCreated": dateFormatter.date(from: dateTextField.text!)]
+            delegate?.dataEditingReceived(dictionary: dictionary, selectedItem: self.selectedItem!)
             print("Button tapped22")
         }
         
