@@ -14,7 +14,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     let section = ["Overdue", "Today", "Tomorrow", "Upcoming days"]
-    var currentIndex : Int?
     var list : [Results<Item>]?
     // MARK: variable for persisting data
     let realm = ItemManager.shared.realm
@@ -200,8 +199,6 @@ extension ViewController: CustomCellDelegate {
     
     func detail(_ cell: CustomCell, didTap detailButton: UIButton) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        currentIndex = indexPath.row
-        print(currentIndex!)
         presentItemDetailView(with: indexPath)
     }
     
